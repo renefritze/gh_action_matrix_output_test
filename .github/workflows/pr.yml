@@ -22,7 +22,7 @@ jobs:
           matrix-step-name: ${{ github.job }}
           matrix-key: ${{ matrix.platform }}
           outputs: |-
-            image: prefix_${{ matrix.platform }}
+            image: prefix_${{ matrix.platform }}_bar
 
   ## Read matrix outputs 
   read:
@@ -44,12 +44,12 @@ jobs:
     steps:
       - uses: nick-fields/assert-action@v1
         with:
-          expected: prefix_i386:i386
+          expected: prefix_i386_bar
           ## This how you can reference matrix output
           actual: ${{ fromJson(needs.read.outputs.result).image.i386 }}
 
       - uses: nick-fields/assert-action@v1
         with:
-          expected: prefix_arm64v8:arm64v8
+          expected: prefix_arm64v8_bar
           ## This how you can reference matrix output
           actual: ${{ fromJson(needs.read.outputs.result).image.arm64v8 }}

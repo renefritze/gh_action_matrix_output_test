@@ -47,3 +47,11 @@ jobs:
           expected: prefix_arm64v8_bar
           ## This how you can reference matrix output
           actual: ${{ fromJson(steps.read.outputs.result).image.arm64v8 }}
+
+
+      - shell: python
+        run: |
+          import json
+          import pprint
+          data = json.loads('${{ steps.read.outputs.result }}')
+          pprint.pprint(data)

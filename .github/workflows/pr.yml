@@ -25,7 +25,10 @@ jobs:
             image: prefix_${{ matrix.platform }}_bar
 
   ## Read matrix outputs 
-  read:
+  
+
+  ## This how you can reference matrix output
+  assert:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
@@ -33,23 +36,14 @@ jobs:
         id: read
         with:
           matrix-step-name: build
-
-    outputs:
-      result: "${{ steps.read.outputs.result }}"
-
-  ## This how you can reference matrix output
-  assert:
-    runs-on: ubuntu-latest
-    needs: [read]
-    steps:
       - uses: nick-fields/assert-action@v1
         with:
           expected: prefix_i386_bar
           ## This how you can reference matrix output
-          actual: ${{ fromJson(needs.read.outputs.result).image.i386 }}
+          actual: ${{ fromJson(steps.read.outputs.result).image.i386 }}
 
       - uses: nick-fields/assert-action@v1
         with:
           expected: prefix_arm64v8_bar
           ## This how you can reference matrix output
-          actual: ${{ fromJson(needs.read.outputs.result).image.arm64v8 }}
+          actual: ${{ fromJson(steps.read.outputs.result).image.arm64v8 }}
